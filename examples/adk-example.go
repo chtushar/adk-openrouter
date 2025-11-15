@@ -1,6 +1,7 @@
 package main
 
 import (
+	"adk-openrouter/model/openrouter"
 	"context"
 	"log"
 	"os"
@@ -9,16 +10,29 @@ import (
 	"google.golang.org/adk/agent/llmagent"
 	"google.golang.org/adk/cmd/launcher/adk"
 	"google.golang.org/adk/cmd/launcher/full"
-	"google.golang.org/adk/model/gemini"
 	"google.golang.org/adk/server/restapi/services"
 	"google.golang.org/adk/tool"
 	"google.golang.org/adk/tool/geminitool"
-	"google.golang.org/genai"
 )
 
 const (
-	modelName = "gemini-2.5-flash"
+	modelName = "anthropic/claude-sonnet-4.5"
 )
+
+// func main() {
+// 	err := godotenv.Load()
+// 	if err != nil {
+// 		log.Printf("Warning: Error loading .env file: %v", err)
+// 	}
+
+// 	ctx := context.Background()
+// 	model, err := openrouter.NewModel(ctx, modelName, os.Getenv("OPENROUTER_API_KEY"))
+// 	if err != nil {
+// 		panic(err)
+// 	}
+
+// 	println("Model created with name:", model.Name())
+// }
 
 func main() {
 	err := godotenv.Load()
@@ -29,11 +43,9 @@ func main() {
 	ctx := context.Background()
 
 	// Option 1: Use Gemini (default)
-	model, err := gemini.NewModel(ctx, modelName, &genai.ClientConfig{
-		APIKey: os.Getenv("GOOGLE_API_KEY"),
-	})
+	model, err := openrouter.NewModel(ctx, modelName, os.Getenv("OPENROUTER_API_KEY"))
 	if err != nil {
-		log.Fatalf("Failed to create model: %v", err)
+		panic(err)
 	}
 
 	copyAgent, err := llmagent.New(llmagent.Config{
