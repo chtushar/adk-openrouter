@@ -17,9 +17,7 @@ import (
 )
 
 const (
-	modelName = "gemini-2.0-flash"
-	appName   = "marketing_copy_app"
-	userID    = "test_user_456"
+	modelName = "gemini-2.5-flash"
 )
 
 func main() {
@@ -31,7 +29,7 @@ func main() {
 	ctx := context.Background()
 
 	// Option 1: Use Gemini (default)
-	model, err := gemini.NewModel(ctx, "gemini-2.5-flash", &genai.ClientConfig{
+	model, err := gemini.NewModel(ctx, modelName, &genai.ClientConfig{
 		APIKey: os.Getenv("GOOGLE_API_KEY"),
 	})
 	if err != nil {
